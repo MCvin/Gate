@@ -44,6 +44,7 @@ GateSourceTPSPencilBeam::GateSourceTPSPencilBeam(G4String name ):GateVSource( na
   mDistanceSourcePatient=500;
   pMessenger = new GateSourceTPSPencilBeamMessenger(this);
   mOldStyleFlag=false;
+  mESpreadInPercentageFlag = false;
   mTestFlag=false;
   mCurrentParticleNumber=0;
   mCurrentSpot=0;
@@ -308,7 +309,14 @@ void GateSourceTPSPencilBeam::OldGenerateVertex( G4Event *aEvent ) {
               Pencil->SetParticleType(mParticleType);
               //Energy
               Pencil->SetEnergy(GetEnergy(energy));
-              Pencil->SetSigmaEnergy(GetSigmaEnergy(energy));
+
+              // By default, user set the E spread in absolute value. If the
+              // flag is true, user set the E spread in percentage
+              GateMessage("Physics", 1, "[TPSPencilBeam] ESpread is in percentage: " << mESpreadInPercentageFlag);
+              if (mESpreadInPercentageFlag == false)
+                Pencil->SetSigmaEnergy(GetSigmaEnergy(energy));
+              else
+                Pencil->SetSigmaEnergy(GetSigmaEnergy(energy) * GetEnergy(energy)/100.0);
 
               //cerr << "Brent " << GetSigmaEnergy(energy) << " en " << GetEnergy(energy) <<endl;
 
@@ -334,7 +342,7 @@ void GateSourceTPSPencilBeam::OldGenerateVertex( G4Event *aEvent ) {
               Pencil->SetSigmaPhi(GetSigmaPhi(energy));
               Pencil->SetEllipseYPhiArea(GetEllipseYPhiArea(energy));
               Pencil->SetRotation(rotation);
-              
+
               mSpotLayer.push_back(currentLayerID);
 
               //Correlation Position/Direction
@@ -674,7 +682,15 @@ void GateSourceTPSPencilBeam::ConfigurePencilBeam() {
   mPencilBeam->SetParticleType(mParticleType);
   //Energy
   mPencilBeam->SetEnergy(GetEnergy(energy));
-  mPencilBeam->SetSigmaEnergy(GetSigmaEnergy(energy));
+
+  // By default, user set the E spread in absolute value. If the
+  // flag is true, user set the E spread in percentage
+  GateMessage("Physics", 1, "[TPSPencilBeam] ESpread is in percentage: " << mESpreadInPercentageFlag);
+  if (mESpreadInPercentageFlag == false)
+    mPencilBeam->SetSigmaEnergy(GetSigmaEnergy(energy));
+  else
+    mPencilBeam->SetSigmaEnergy(GetSigmaEnergy(energy) * GetEnergy(energy)/100.0);
+
   //Weight
   if (mFlatGenerationFlag) {
     mPencilBeam->SetWeight(mSpotWeight[mCurrentSpot]);

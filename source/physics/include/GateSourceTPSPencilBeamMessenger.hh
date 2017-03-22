@@ -49,6 +49,8 @@ class GateSourceTPSPencilBeamMessenger: public GateVSourceMessenger
     G4UIcmdWithABool* pTestCmd;
     //Configuration of vertex generation method
     G4UIcmdWithABool* pOldStyleCmd;
+    //Configuration of Energy spread
+     G4UIcmdWithABool* pESpread;
     //Treatment Plan file
     G4UIcmdWithAString * pPlanCmd;
     //FlatGenerationFlag

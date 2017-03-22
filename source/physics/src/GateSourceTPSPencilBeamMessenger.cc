@@ -34,6 +34,11 @@
   //Temporary configuration of vertex generation method
   cmdName = GetDirectoryName()+"setOldStyleFlag";
   pOldStyleCmd = new G4UIcmdWithABool(cmdName,this);
+  //Energy spread
+  // default = false -> absolute is used
+  // if this flag is set, -> percentage is used
+  cmdName = GetDirectoryName()+"setEnergySpreadInPercentage";
+  pESpread = new G4UIcmdWithABool(cmdName,this);
   //Treatment Plan file
   cmdName = GetDirectoryName()+"setPlan";
   pPlanCmd = new G4UIcmdWithAString(cmdName,this);
@@ -75,6 +80,7 @@ GateSourceTPSPencilBeamMessenger::~GateSourceTPSPencilBeamMessenger()
   delete pTestCmd;
   //Temporary configuration of vertex generation method
   delete pOldStyleCmd;
+  delete pESpread;
   //Treatment Plan file
   delete pPlanCmd;
   //FlatGenerationFlag
@@ -106,6 +112,8 @@ void GateSourceTPSPencilBeamMessenger::SetNewValue(G4UIcommand* command,G4String
   if (command == pTestCmd) {pSourceTPSPencilBeam->SetTestFlag(pTestCmd->GetNewBoolValue(newValue)); }
   //Configuration of tests
   if (command == pOldStyleCmd) {pSourceTPSPencilBeam->SetOldStyleFlag(pOldStyleCmd->GetNewBoolValue(newValue)); }
+  //Configuration of Energy spread
+  if (command == pESpread) {pSourceTPSPencilBeam->SetESpreadInPercentageFlag(pESpread->GetNewBoolValue(newValue)); }
   //Treatment Plan file
   if (command == pPlanCmd) {pSourceTPSPencilBeam->SetPlan(newValue);  }
   //Configuration of FlatFlag gene

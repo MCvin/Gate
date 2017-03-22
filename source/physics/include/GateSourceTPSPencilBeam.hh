@@ -53,6 +53,8 @@ public:
   void SetParticleType(G4String ParticleType) {strcpy(mParticleType, ParticleType);}
   //Test Flag
   void SetTestFlag(bool b) {mTestFlag=b;}
+  //Test Energy Spread in percentage Flag
+  void SetESpreadInPercentageFlag(bool b) {mESpreadInPercentageFlag=b;}
   //Temporary Flag to switch between old and new style vertex generation
   void SetOldStyleFlag(bool b) {mOldStyleFlag=b;}
   //Treatment Plan file
@@ -115,6 +117,8 @@ protected:
   bool mTestFlag;
   //Old style flag (temporary, for debugging new pencil beam vertex generation)
   bool mOldStyleFlag;
+  // Flag to read Energy spread in percentage instead of absolute value
+  bool mESpreadInPercentageFlag;
   //Treatment Plan file
   G4String mPlan;
   //Others
